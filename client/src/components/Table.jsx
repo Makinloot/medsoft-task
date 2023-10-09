@@ -2,6 +2,7 @@
 import { IoAddOutline } from "react-icons/io5";
 import { BiEdit } from "react-icons/bi";
 import { TiDeleteOutline } from "react-icons/ti";
+import { useAppContext } from "../context/ContextProvider";
 
 const TEST_DATA = [
   {
@@ -66,20 +67,24 @@ export default function Table() {
 }
 
 function TableButtons() {
+  const { setShowForm } = useAppContext();
   return (
     <div className="Table-buttons flex gap-4 text-black">
-      <div className="flex items-center gap-1">
+      <button
+        className="flex items-center gap-1"
+        onClick={() => setShowForm(true)}
+      >
         <IoAddOutline size={28} color="green" />
         <span className="text-sm">დამატება</span>
-      </div>
-      <div className="flex items-center gap-1">
+      </button>
+      <button className="flex items-center gap-1">
         <BiEdit size={24} color="orange" />
         <span className="text-sm">რედაქტირება</span>
-      </div>
-      <div className="flex items-center gap-1">
+      </button>
+      <button className="flex items-center gap-1">
         <TiDeleteOutline size={24} color="red" />
         <span className="text-sm">წაშლა</span>
-      </div>
+      </button>
     </div>
   );
 }
