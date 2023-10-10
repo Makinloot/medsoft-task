@@ -2,15 +2,40 @@ import { useRef } from "react";
 import { useAppContext } from "../context/ContextProvider";
 import { Formik, Form as FormikForm } from "formik";
 import formValidationSchema from "../validationSchema";
+import axios from "axios";
 
 /* eslint-disable react/prop-types */
 export default function Form() {
   const { setShowForm } = useAppContext();
   const formRef = useRef(null);
 
-  const handleSubmit = () => {
-    console.log("red");
-  };
+  async function handleSubmit({ name, birthdate, sex, mobile, location }) {
+    try {
+      const generateId = () => Math.random() * Math.random() * Math.random();
+      const request = {
+        name: name,
+        birthdate: new Date(birthdate)
+          .toLocaleDateString("en-GB")
+          .replace(/\//g, "."),
+        sex: sex,
+        mobile: mobile,
+        location: location,
+        id: String(generateId()).split(".")[1],
+      };
+      // production route
+      // axios.post("/insert", request).then((res) => {
+      //   console.log(res);
+      //   setShowForm(false);
+      // });
+      // test route
+      axios.post("http://localhost:3000/insert", request).then((res) => {
+        console.log(res);
+        setShowForm(false);
+      });
+    } catch (error) {
+      console.log("Something went wrong", error);
+    }
+  }
 
   return (
     <div className="Form">
@@ -24,7 +49,9 @@ export default function Form() {
               mobile: "",
               location: "",
             }}
-            onSubmit={handleSubmit}
+            onSubmit={(values) => {
+              handleSubmit(values);
+            }}
             validationSchema={formValidationSchema}
           >
             {({
@@ -50,6 +77,7 @@ export default function Form() {
                   name={"დაბ თარიღი"}
                   value={values.birthdate}
                   error={touched.name && errors.birthdate}
+                  type={"date"}
                   required
                 />
                 <InputField
@@ -76,20 +104,24 @@ export default function Form() {
                   error={touched.name && errors.location}
                   required
                 />
-                <div className="flex my-4 justify-between">
-                  <button
-                    className="font-bold text-black py-1 px-4 cursor-pointer bg-red-400"
-                    type="button"
-                    onClick={() => setShowForm(false)}
-                  >
-                    დახურვა
-                  </button>
-                  <input
-                    className="font-bold text-black py-1 px-4 cursor-pointer bg-green-400"
-                    type="submit"
-                    value="დამატება"
-                  />
-                </div>
+                {isSubmitting ? (
+                  <div>იგზავნება</div>
+                ) : (
+                  <div className="flex my-4 justify-between">
+                    <button
+                      className="font-bold text-black py-1 px-4 cursor-pointer bg-red-400"
+                      type="button"
+                      onClick={() => setShowForm(false)}
+                    >
+                      დახურვა
+                    </button>
+                    <input
+                      className="font-bold text-black py-1 px-4 cursor-pointer bg-green-400"
+                      type="submit"
+                      value="დამატება"
+                    />
+                  </div>
+                )}
               </FormikForm>
             )}
           </Formik>

@@ -3,7 +3,8 @@ import { IoAddOutline } from "react-icons/io5";
 import { BiEdit } from "react-icons/bi";
 import { TiDeleteOutline } from "react-icons/ti";
 import { useAppContext } from "../context/ContextProvider";
-
+import { useEffect, useState } from "react";
+import axios from "axios";
 const TEST_DATA = [
   {
     id: 0,
@@ -32,6 +33,25 @@ const TEST_DATA = [
 ];
 
 export default function Table() {
+  const { showForm } = useAppContext();
+  const [data, setData] = useState([]);
+
+  async function fetchPatients() {
+    try {
+      // production route
+      // const { data } = await axios.get("/patients")
+      // testing route
+      const { data } = await axios.get("http://localhost:3000/patients");
+      setData(data);
+    } catch (error) {
+      console.log("Something went wrong", error);
+    }
+  }
+
+  useEffect(() => {
+    fetchPatients();
+    // console.log(data);
+  }, [showForm]);
   return (
     <div className="Table">
       <div className="container">
@@ -53,9 +73,17 @@ export default function Table() {
                   </tr>
                 </thead>
                 <tbody className="text-black">
-                  {TEST_DATA.map((item) => (
+                  {data?.map((item) => (
                     <TableRow key={item.id} {...item} />
                   ))}
+                  <tr className="border-black hover:bg-slate-200 h-[25px]">
+                    <th className="border-r border-black"></th>
+                    <td className="border-r border-black"></td>
+                    <td className="border-r border-black"></td>
+                    <td className="border-r border-black"></td>
+                    <td className="border-r border-black"></td>
+                    <td className=""></td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -92,7 +120,12 @@ function TableButtons() {
 function TableRow({ id, name, birthdate, sex, mobile, location }) {
   return (
     <tr className="border-black hover:bg-slate-200">
-      <th className="border-r border-black">{id}</th>
+      <th
+        className="border-r border-black max-w-[25px] overflow-hidden text-ellipsis"
+        title={id}
+      >
+        {id}
+      </th>
       <td className="border-r border-black">{name}</td>
       <td className="border-r border-black">{birthdate}</td>
       <td className="border-r border-black">{sex}</td>

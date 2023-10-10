@@ -52,9 +52,6 @@ app.get("/patients", (req, res) => {
       });
       res.json(rows);
     });
-    db.close((err) => {
-      if (err) return console.log("ERROR MAZAFAKAA FROM CLOSE DB");
-    });
   } catch (error) {
     console.log("error getting patients");
     res.json(error);
