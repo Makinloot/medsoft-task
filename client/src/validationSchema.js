@@ -13,6 +13,21 @@ export const formValidationSchema = Yup.object().shape({
     .max(9, "მაქსიმუმ 9 ციფრი")
     .min(9, "მინიმუმ 9 ციფრი"),
   location: Yup.string().required("სავალდებულო ველი"),
+  email: Yup.string().test(
+    "is-valid-email",
+    "შეიყვანეთ სწორი ელ-ფოსტა",
+    (value) => {
+      if (!value) {
+        return false;
+      }
+
+      // Use a regular expression to check the email format
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{1,}$/;
+
+      // Check if the email matches the regex and doesn't end with space
+      return emailRegex.test(value) && !/\s+$/.test(value);
+    }
+  ),
 });
 
 export default formValidationSchema;

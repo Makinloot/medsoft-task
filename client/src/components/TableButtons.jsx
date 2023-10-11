@@ -15,7 +15,7 @@ export default function TableButtons() {
   } = useAppContext();
 
   return (
-    <div className="Table-buttons flex gap-2 text-black">
+    <div className="Table-buttons flex flex-wrap justify-center gap-2 text-black">
       {showDeletePopup && <DeletePopUp />}
       {/* ADD PATIENTS BUTTON */}
       <button

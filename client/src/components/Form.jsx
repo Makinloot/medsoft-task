@@ -9,7 +9,15 @@ export default function Form() {
   const { setShowForm } = useAppContext();
   const formRef = useRef(null);
 
-  async function handleSubmit({ name, birthdate, sex, mobile, location }) {
+  async function handleSubmit({
+    name,
+    birthdate,
+    sex,
+    mobile,
+    location,
+    identification,
+    email,
+  }) {
     try {
       const generateId = () => Math.random() * Math.random() * Math.random();
       const request = {
@@ -20,6 +28,8 @@ export default function Form() {
         sex: sex,
         mobile: mobile,
         location: location,
+        identification: identification,
+        email: email,
         id: String(generateId()).split(".")[1],
       };
       // production route
@@ -40,7 +50,7 @@ export default function Form() {
   return (
     <div className="Form">
       <div className="container">
-        <div className="Form-wrapper flex items-center justify-center fixed h-screen w-full top-0 left-0 bg-[#000000b7]">
+        <div className="Form-wrapper flex items-center justify-center fixed overflow-visible h-screen w-full top-0 left-0 bg-[#000000b7]">
           <Formik
             initialValues={{
               name: "",
@@ -48,6 +58,8 @@ export default function Form() {
               sex: "",
               mobile: "",
               location: "",
+              identification: "",
+              email: "",
             }}
             onSubmit={(values) => {
               handleSubmit(values);
@@ -62,7 +74,11 @@ export default function Form() {
               touched,
               // isSubmitting,
             }) => (
-              <FormikForm ref={formRef} className="relative" noValidate>
+              <FormikForm
+                ref={formRef}
+                className="relative max-w-[100%]"
+                noValidate
+              >
                 <div className="bg-slate-500 p-6 rounded-sm">
                   <InputField
                     handleChange={handleChange("name")}
@@ -71,6 +87,22 @@ export default function Form() {
                     value={values.name}
                     error={touched.name && errors.name}
                     required
+                  />
+                  <InputField
+                    handleChange={handleChange("email")}
+                    handleBlur={handleBlur("email")}
+                    name={"ელ-ფოსტა"}
+                    value={values.email}
+                    error={touched.email && errors.email}
+                    type={"email"}
+                  />
+                  <InputField
+                    handleChange={handleChange("identification")}
+                    handleBlur={handleBlur("identification")}
+                    name={"პირადი ნომერი"}
+                    value={values.identification}
+                    error={touched.identification && errors.identification}
+                    type={"number"}
                   />
                   <InputField
                     handleChange={handleChange("birthdate")}

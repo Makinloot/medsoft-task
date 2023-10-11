@@ -49,6 +49,8 @@ export default function UpdateForm({ id }) {
                 sex: formValues?.sex,
                 mobile: formValues?.mobile,
                 location: formValues?.location,
+                identification: formValues?.identification,
+                email: formValues?.email,
               }}
               onSubmit={(values) => {
                 handleSubmit(values);
@@ -72,6 +74,22 @@ export default function UpdateForm({ id }) {
                       value={values.name}
                       error={touched.name && errors.name}
                       required
+                    />
+                    <InputField
+                      handleChange={handleChange("email")}
+                      handleBlur={handleBlur("email")}
+                      name={"ელ-ფოსტა"}
+                      value={values.email}
+                      error={touched.email && errors.email}
+                      type={"email"}
+                    />
+                    <InputField
+                      handleChange={handleChange("identification")}
+                      handleBlur={handleBlur("identification")}
+                      name={"პირადი ნომერი"}
+                      value={values.identification}
+                      error={touched.identification && errors.identification}
+                      type={"number"}
                     />
                     <InputField
                       handleChange={handleChange("birthdate")}

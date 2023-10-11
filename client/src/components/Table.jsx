@@ -25,6 +25,8 @@ export default function Table() {
                     <th className="border-r border-black">სქესი</th>
                     <th className="border-r border-black">მობ ნომერი</th>
                     <th className="border-r">მისამართი</th>
+                    <th className="border-r">პირადი ნომერი</th>
+                    <th className="border-r">ელ-ფოსტა</th>
                   </tr>
                 </thead>
                 <tbody className="text-black">
@@ -33,6 +35,8 @@ export default function Table() {
                   ))}
                   <tr className="border-black hover:bg-slate-200 h-[25px]">
                     <th className="border-r border-black"></th>
+                    <td className="border-r border-black"></td>
+                    <td className="border-r border-black"></td>
                     <td className="border-r border-black"></td>
                     <td className="border-r border-black"></td>
                     <td className="border-r border-black"></td>
@@ -49,7 +53,16 @@ export default function Table() {
   );
 }
 
-function TableRow({ id, name, birthdate, sex, mobile, location }) {
+function TableRow({
+  id,
+  name,
+  birthdate,
+  sex,
+  mobile,
+  location,
+  identification,
+  email,
+}) {
   const { setShowButtons, setSelectedId, selectedId, showUpdateForm } =
     useAppContext();
 
@@ -93,7 +106,9 @@ function TableRow({ id, name, birthdate, sex, mobile, location }) {
       <td className="SELECTED_ITEM border-r border-black">{birthdate}</td>
       <td className="SELECTED_ITEM border-r border-black">{sex}</td>
       <td className="SELECTED_ITEM border-r border-black">{mobile}</td>
-      <td className="">{location}</td>
+      <td className="SELECTED_ITEM border-r border-black">{location}</td>
+      <td className="SELECTED_ITEM border-r border-black">{identification}</td>
+      <td className="SELECTED_ITEM">{email}</td>
     </tr>
   );
 }
