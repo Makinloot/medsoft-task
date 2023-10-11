@@ -27,8 +27,6 @@ export default function Form() {
       //   console.log(res);
       //   setShowForm(false);
       // });
-      console.log("submitted");
-      console.log(`name: ${name}, sex: ${sex}`);
       // test route
       axios.post("http://localhost:3000/insert", request).then((res) => {
         console.log(res);
@@ -62,7 +60,7 @@ export default function Form() {
               handleChange,
               errors,
               touched,
-              isSubmitting,
+              // isSubmitting,
             }) => (
               <FormikForm ref={formRef} className="relative">
                 <InputField
@@ -137,7 +135,7 @@ export default function Form() {
   );
 }
 
-function InputField({
+export function InputField({
   type,
   name,
   required,

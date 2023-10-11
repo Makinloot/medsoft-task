@@ -1,29 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { useAppContext } from "../context/ContextProvider";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect } from "react";
 import TableButtons from "./TableButtons";
 
 export default function Table() {
-  const { showForm, showButtons, showDeletePopup } = useAppContext();
-  const [data, setData] = useState([]);
-
-  async function fetchPatients() {
-    try {
-      // production route
-      // const { data } = await axios.get("/patients")
-      // testing route
-      const { data } = await axios.get("http://localhost:3000/patients");
-      setData(data);
-    } catch (error) {
-      console.log("Something went wrong", error);
-    }
-  }
-
-  useEffect(() => {
-    fetchPatients();
-  }, [showForm, showButtons, showDeletePopup]);
+  const { data } = useAppContext();
 
   return (
     <div className="Table">
@@ -68,12 +50,19 @@ export default function Table() {
 }
 
 function TableRow({ id, name, birthdate, sex, mobile, location }) {
-  const { setShowButtons, setSelectedId, selectedId } = useAppContext();
+  const { setShowButtons, setSelectedId, selectedId, showUpdateForm } =
+    useAppContext();
 
   useEffect(() => {
     // check if click contains class SELECTED_ITEM
     const handleClick = (e) => {
       if (e.target.classList.contains("SELECTED_ITEM")) return;
+      else if (
+        !e.target.classList.contains("SELECTED_ITEM") &&
+        showUpdateForm === true
+      )
+        return;
+      // else if (showUpdateForm === false) return;
       else {
         setSelectedId("");
         setShowButtons(false);
@@ -82,7 +71,7 @@ function TableRow({ id, name, birthdate, sex, mobile, location }) {
     window.addEventListener("click", handleClick);
 
     return () => window.removeEventListener("click", handleClick);
-  }, []);
+  }, [showUpdateForm]);
 
   return (
     <tr
