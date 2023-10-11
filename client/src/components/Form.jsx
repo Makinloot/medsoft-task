@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { useAppContext } from "../context/ContextProvider";
-import { Formik, Form as FormikForm } from "formik";
+import { Field, Formik, Form as FormikForm } from "formik";
 import formValidationSchema from "../validationSchema";
 import axios from "axios";
 
@@ -27,6 +27,8 @@ export default function Form() {
       //   console.log(res);
       //   setShowForm(false);
       // });
+      console.log("submitted");
+      console.log(`name: ${name}, sex: ${sex}`);
       // test route
       axios.post("http://localhost:3000/insert", request).then((res) => {
         console.log(res);
@@ -80,14 +82,21 @@ export default function Form() {
                   type={"date"}
                   required
                 />
-                <InputField
-                  handleChange={handleChange("sex")}
-                  handleBlur={handleBlur("sex")}
-                  name={"სქესი"}
-                  value={values.sex}
-                  error={touched.name && errors.sex}
-                  required
-                />
+                <div className="radio-group my-4 text-white">
+                  {errors.sex && <span>{errors.sex}</span>}
+                  <div className="Input-field">
+                    <label>
+                      <span className="mr-2">მამრობითი</span>
+                      <Field type="radio" name="sex" value="მამრობითი" />
+                    </label>
+                  </div>
+                  <div className="Input-field">
+                    <label>
+                      <span className="mr-2">მდედრობითი</span>
+                      <Field type="radio" name="sex" value="მდედრობითი" />
+                    </label>
+                  </div>
+                </div>
                 <InputField
                   handleChange={handleChange("mobile")}
                   handleBlur={handleBlur("mobile")}
@@ -104,24 +113,21 @@ export default function Form() {
                   error={touched.name && errors.location}
                   required
                 />
-                {isSubmitting ? (
-                  <div>იგზავნება</div>
-                ) : (
-                  <div className="flex my-4 justify-between">
-                    <button
-                      className="font-bold text-black py-1 px-4 cursor-pointer bg-red-400"
-                      type="button"
-                      onClick={() => setShowForm(false)}
-                    >
-                      დახურვა
-                    </button>
-                    <input
-                      className="font-bold text-black py-1 px-4 cursor-pointer bg-green-400"
-                      type="submit"
-                      value="დამატება"
-                    />
-                  </div>
-                )}
+
+                <div className="flex my-4 justify-between">
+                  <button
+                    className="font-bold text-black py-1 px-4 cursor-pointer bg-red-400"
+                    type="button"
+                    onClick={() => setShowForm(false)}
+                  >
+                    დახურვა
+                  </button>
+                  <input
+                    className="font-bold text-black py-1 px-4 cursor-pointer bg-green-400"
+                    type="submit"
+                    value="დამატება"
+                  />
+                </div>
               </FormikForm>
             )}
           </Formik>

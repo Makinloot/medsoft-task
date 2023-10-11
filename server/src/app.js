@@ -32,9 +32,6 @@ app.post("/insert", (req, res) => {
       console.log("New patient has been created");
       res.send("New patient has been created");
     });
-    // db.close((err) => {
-    //   if (err) return console.log("Error closing DB");
-    // });
   } catch (error) {
     console.log(`Error inserting new patient, ${error}`);
     res.send(`Error inserting new patient, ${error}`);
@@ -55,6 +52,40 @@ app.get("/patients", (req, res) => {
   } catch (error) {
     console.log("error getting patients");
     res.json(error);
+  }
+});
+
+app.post("/delete", (req, res) => {
+  const { id } = req.body;
+
+  try {
+    const sql = "DELETE FROM patients WHERE id = ?";
+    db.run(sql, id, (err) => {
+      if (err) return console.log(`Error deleting patient: ${err}`);
+
+      console.log(`Patient ${id} has been deleted`);
+      res.json(`Patient ${id} has been deleted`);
+    });
+  } catch (error) {
+    console.log(`Error deleting patient: ${error}`);
+    res.json(`Error deleting patient: ${error}`);
+  }
+});
+
+app.post("/update", (req, res) => {
+  const { name, birthdate, sex, mobile, location, id } = req.body;
+  try {
+    const sql = `UPDATE patients SET name = ?, birthdate = ?, sex = ?, mobile = ?, location = ? WHERE id = ?`;
+    const values = [name, birthdate, sex, mobile, location, id];
+    db.run(sql, values, (err) => {
+      if (err) {
+        console.log(`Error updating patient with ID 3161652417648536: ${err}`);
+      }
+      res.json(`Patient successfully updated`);
+    });
+  } catch (error) {
+    console.log(`Error updating patient: ${error}`);
+    res.json(`Error updating patient: ${error}`);
   }
 });
 

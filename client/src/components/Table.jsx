@@ -5,35 +5,9 @@ import { TiDeleteOutline } from "react-icons/ti";
 import { useAppContext } from "../context/ContextProvider";
 import { useEffect, useState } from "react";
 import axios from "axios";
-const TEST_DATA = [
-  {
-    id: 0,
-    name: "გელაშვილი გიორგი",
-    birthdate: "20.12.1980",
-    sex: "მამრობითი",
-    mobile: "598-130-150",
-    location: "ქ. თელავი",
-  },
-  {
-    id: 1,
-    name: "ზოიძე ნიკოლოზი",
-    birthdate: "01.05.1975",
-    sex: "მამრობითი",
-    mobile: null,
-    location: "ქ. გორი",
-  },
-  {
-    id: 2,
-    name: "ასათიანი თათია",
-    birthdate: "02.01.1965",
-    sex: "მდედრობითი",
-    mobile: "595-105-205",
-    location: "ქ. ბათუმი",
-  },
-];
 
 export default function Table() {
-  const { showForm } = useAppContext();
+  const { showForm, showButtons, showDeletePopup } = useAppContext();
   const [data, setData] = useState([]);
 
   async function fetchPatients() {
@@ -50,8 +24,7 @@ export default function Table() {
 
   useEffect(() => {
     fetchPatients();
-    // console.log(data);
-  }, [showForm]);
+  }, [showForm, showButtons, showDeletePopup]);
   return (
     <div className="Table">
       <div className="container">
@@ -93,11 +66,28 @@ export default function Table() {
     </div>
   );
 }
-
 function TableButtons() {
-  const { setShowForm } = useAppContext();
+  const {
+    setShowForm,
+    showButtons,
+    selectedId,
+    setShowDeletePopup,
+    showDeletePopup,
+  } = useAppContext();
+  // function handleDelete(id) {
+  //   try {
+  //     // test route
+  //     axios
+  //       .post("http://localhost:3000/delete", { id: id })
+  //       .then((res) => console.log(res));
+  //   } catch (error) {
+  //     console.log(`Error deleting patient: ${error}`);
+  //   }
+  // }
+
   return (
     <div className="Table-buttons flex gap-4 text-black">
+      {showDeletePopup && <DeletePopUp />}
       <button
         className="flex items-center gap-1"
         onClick={() => setShowForm(true)}
@@ -105,31 +95,114 @@ function TableButtons() {
         <IoAddOutline size={28} color="green" />
         <span className="text-sm">დამატება</span>
       </button>
-      <button className="flex items-center gap-1">
-        <BiEdit size={24} color="orange" />
-        <span className="text-sm">რედაქტირება</span>
+      <button
+        className={`ROW_ITEM flex items-center gap-1 ${
+          showButtons
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-50 pointer-events-none"
+        }`}
+      >
+        <div className="ROW_ITEM">
+          <BiEdit className="ROW_ITEM" size={24} color="orange" />
+        </div>
+        <span className="text-sm ROW_ITEM">რედაქტირება</span>
       </button>
-      <button className="flex items-center gap-1">
-        <TiDeleteOutline size={24} color="red" />
-        <span className="text-sm">წაშლა</span>
+      <button
+        className={`ROW_ITEM flex items-center gap-1 ${
+          showButtons
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-50 pointer-events-none"
+        }`}
+        onClick={() => setShowDeletePopup(true)}
+      >
+        <div className="ROW_ITEM">
+          <TiDeleteOutline className="ROW_ITEM" size={24} color="red" />
+        </div>
+        <span className="text-sm ROW_ITEM">წაშლა</span>
       </button>
     </div>
   );
 }
 
-function TableRow({ id, name, birthdate, sex, mobile, location }) {
+function DeletePopUp() {
+  const { setShowForm, showButtons, selectedId, setShowDeletePopup } =
+    useAppContext();
+  function handleDelete(id) {
+    try {
+      // test route
+      axios
+        .post("http://localhost:3000/delete", { id: id })
+        .then((res) => console.log(res));
+    } catch (error) {
+      console.log(`Error deleting patient: ${error}`);
+    }
+  }
   return (
-    <tr className="border-black hover:bg-slate-200">
+    <div className="fixed z-[1000] top-0 left-0 h-screen w-screen flex items-center justify-center bg-black/60">
+      <div className="border border-black rounded-sm py-2 px-6 bg-white">
+        <p>გსურთ პაციენტის წაშლა ?</p>
+        <div className="flex justify-between my-4">
+          <button
+            className="bg-green-400 py-1 px-4"
+            onClick={() => {
+              handleDelete(selectedId);
+              setShowDeletePopup(false);
+            }}
+          >
+            დიახ
+          </button>
+          <button
+            className="ROW_ITEM bg-red-400 py-1 px-4"
+            onClick={() => {
+              setShowDeletePopup(false);
+            }}
+          >
+            არა
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TableRow({ id, name, birthdate, sex, mobile, location }) {
+  const { setShowButtons, setSelectedId, selectedId } = useAppContext();
+
+  useEffect(() => {
+    // check if click contains class ROW_ITEM
+    const handleClick = (e) => {
+      if (e.target.classList.contains("ROW_ITEM")) return;
+      else {
+        setSelectedId("");
+        setShowButtons(false);
+      }
+    };
+    window.addEventListener("click", handleClick);
+
+    // remove event listener
+    return () => window.removeEventListener("click", handleClick);
+  }, []);
+
+  return (
+    <tr
+      className={`ROW_ITEM border-black hover:bg-slate-200 cursor-pointer ${
+        selectedId === id ? "bg-slate-400 hover:bg-slate-400" : ""
+      }`}
+      onClick={() => {
+        setSelectedId(id);
+        setShowButtons(true);
+      }}
+    >
       <th
-        className="border-r border-black max-w-[25px] overflow-hidden text-ellipsis"
+        className="ROW_ITEM border-r border-black max-w-[25px] overflow-hidden text-ellipsis"
         title={id}
       >
         {id}
       </th>
-      <td className="border-r border-black">{name}</td>
-      <td className="border-r border-black">{birthdate}</td>
-      <td className="border-r border-black">{sex}</td>
-      <td className="border-r border-black">{mobile}</td>
+      <td className="ROW_ITEM border-r border-black">{name}</td>
+      <td className="ROW_ITEM border-r border-black">{birthdate}</td>
+      <td className="ROW_ITEM border-r border-black">{sex}</td>
+      <td className="ROW_ITEM border-r border-black">{mobile}</td>
       <td className="">{location}</td>
     </tr>
   );
