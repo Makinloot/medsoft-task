@@ -5,6 +5,7 @@ import { useAppContext } from "../context/ContextProvider";
 import { useEffect, useRef, useState } from "react";
 import { InputField } from "./Form";
 import axios from "axios";
+import formValidationSchema from "../validationSchema";
 
 export default function UpdateForm({ id }) {
   const { data, setShowUpdateForm } = useAppContext();
@@ -52,7 +53,7 @@ export default function UpdateForm({ id }) {
               onSubmit={(values) => {
                 handleSubmit(values);
               }}
-              // validationSchema={formValidationSchema}
+              validationSchema={formValidationSchema}
             >
               {({
                 values,
@@ -62,68 +63,72 @@ export default function UpdateForm({ id }) {
                 touched,
                 // isSubmitting,
               }) => (
-                <FormikForm ref={formRef} className="relative">
-                  <InputField
-                    handleChange={handleChange("name")}
-                    handleBlur={handleBlur("name")}
-                    name={"სახელი გვარი"}
-                    value={values.name}
-                    error={touched.name && errors.name}
-                    required
-                  />
-                  <InputField
-                    handleChange={handleChange("birthdate")}
-                    handleBlur={handleBlur("birthdate")}
-                    name={"დაბ თარიღი"}
-                    value={values.birthdate}
-                    error={touched.name && errors.birthdate}
-                    type={"date"}
-                    required
-                  />
-                  <div className="radio-group my-4 text-white">
-                    {errors.sex && <span>{errors.sex}</span>}
-                    <div className="Input-field">
-                      <label>
-                        <span className="mr-2">მამრობითი</span>
-                        <Field type="radio" name="sex" value="მამრობითი" />
-                      </label>
-                    </div>
-                    <div className="Input-field">
-                      <label>
-                        <span className="mr-2">მდედრობითი</span>
-                        <Field type="radio" name="sex" value="მდედრობითი" />
-                      </label>
-                    </div>
-                  </div>
-                  <InputField
-                    handleChange={handleChange("mobile")}
-                    handleBlur={handleBlur("mobile")}
-                    name={"მობ ნომერი"}
-                    value={values.mobile}
-                    error={touched.name && errors.mobile}
-                    type={"number"}
-                  />
-                  <InputField
-                    handleChange={handleChange("location")}
-                    handleBlur={handleBlur("location")}
-                    name={"მისამართი"}
-                    value={values.location}
-                    error={touched.name && errors.location}
-                    required
-                  />
-                  <div className="flex my-4 justify-between">
-                    <button
-                      className="font-bold text-black py-1 px-4 cursor-pointer bg-red-400"
-                      type="button"
-                      onClick={() => setShowUpdateForm(false)}
-                    >
-                      დახურვა
-                    </button>
-                    <input
-                      className="font-bold text-black py-1 px-4 cursor-pointer bg-green-400"
-                      type="submit"
-                      value="დამატება"
+                <FormikForm ref={formRef} className="relative" noValidate>
+                  <div className="bg-slate-500 p-6 rounded-sm">
+                    <InputField
+                      handleChange={handleChange("name")}
+                      handleBlur={handleBlur("name")}
+                      name={"სახელი გვარი"}
+                      value={values.name}
+                      error={touched.name && errors.name}
+                      required
                     />
+                    <InputField
+                      handleChange={handleChange("birthdate")}
+                      handleBlur={handleBlur("birthdate")}
+                      name={"დაბ თარიღი"}
+                      value={values.birthdate}
+                      error={touched.name && errors.birthdate}
+                      type={"date"}
+                      required
+                    />
+                    <div className="radio-group my-4 text-white">
+                      {errors.sex && (
+                        <span className="text-red-400">{errors.sex}</span>
+                      )}
+                      <div className="Input-field">
+                        <label>
+                          <Field type="radio" name="sex" value="მამრობითი" />
+                          <span className="ml-2">მამრობითი</span>
+                        </label>
+                      </div>
+                      <div className="Input-field">
+                        <label>
+                          <Field type="radio" name="sex" value="მდედრობითი" />
+                          <span className="ml-2">მდედრობითი</span>
+                        </label>
+                      </div>
+                    </div>
+                    <InputField
+                      handleChange={handleChange("mobile")}
+                      handleBlur={handleBlur("mobile")}
+                      name={"მობ ნომერი"}
+                      value={values.mobile}
+                      error={touched.name && errors.mobile}
+                      type={"number"}
+                    />
+                    <InputField
+                      handleChange={handleChange("location")}
+                      handleBlur={handleBlur("location")}
+                      name={"მისამართი"}
+                      value={values.location}
+                      error={touched.name && errors.location}
+                      required
+                    />
+                    <div className="flex my-4 justify-between">
+                      <button
+                        className="font-bold text-black py-1 px-4 cursor-pointer bg-red-400"
+                        type="button"
+                        onClick={() => setShowUpdateForm(false)}
+                      >
+                        დახურვა
+                      </button>
+                      <input
+                        className="font-bold text-black py-1 px-4 cursor-pointer bg-green-400"
+                        type="submit"
+                        value="რედაქტირება"
+                      />
+                    </div>
                   </div>
                 </FormikForm>
               )}

@@ -62,69 +62,73 @@ export default function Form() {
               touched,
               // isSubmitting,
             }) => (
-              <FormikForm ref={formRef} className="relative">
-                <InputField
-                  handleChange={handleChange("name")}
-                  handleBlur={handleBlur("name")}
-                  name={"სახელი გვარი"}
-                  value={values.name}
-                  error={touched.name && errors.name}
-                  required
-                />
-                <InputField
-                  handleChange={handleChange("birthdate")}
-                  handleBlur={handleBlur("birthdate")}
-                  name={"დაბ თარიღი"}
-                  value={values.birthdate}
-                  error={touched.name && errors.birthdate}
-                  type={"date"}
-                  required
-                />
-                <div className="radio-group my-4 text-white">
-                  {errors.sex && <span>{errors.sex}</span>}
-                  <div className="Input-field">
-                    <label>
-                      <span className="mr-2">მამრობითი</span>
-                      <Field type="radio" name="sex" value="მამრობითი" />
-                    </label>
-                  </div>
-                  <div className="Input-field">
-                    <label>
-                      <span className="mr-2">მდედრობითი</span>
-                      <Field type="radio" name="sex" value="მდედრობითი" />
-                    </label>
-                  </div>
-                </div>
-                <InputField
-                  handleChange={handleChange("mobile")}
-                  handleBlur={handleBlur("mobile")}
-                  name={"მობ ნომერი"}
-                  value={values.mobile}
-                  error={touched.name && errors.mobile}
-                  type={"number"}
-                />
-                <InputField
-                  handleChange={handleChange("location")}
-                  handleBlur={handleBlur("location")}
-                  name={"მისამართი"}
-                  value={values.location}
-                  error={touched.name && errors.location}
-                  required
-                />
-
-                <div className="flex my-4 justify-between">
-                  <button
-                    className="font-bold text-black py-1 px-4 cursor-pointer bg-red-400"
-                    type="button"
-                    onClick={() => setShowForm(false)}
-                  >
-                    დახურვა
-                  </button>
-                  <input
-                    className="font-bold text-black py-1 px-4 cursor-pointer bg-green-400"
-                    type="submit"
-                    value="დამატება"
+              <FormikForm ref={formRef} className="relative" noValidate>
+                <div className="bg-slate-500 p-6 rounded-sm">
+                  <InputField
+                    handleChange={handleChange("name")}
+                    handleBlur={handleBlur("name")}
+                    name={"სახელი გვარი"}
+                    value={values.name}
+                    error={touched.name && errors.name}
+                    required
                   />
+                  <InputField
+                    handleChange={handleChange("birthdate")}
+                    handleBlur={handleBlur("birthdate")}
+                    name={"დაბ თარიღი"}
+                    value={values.birthdate}
+                    error={touched.name && errors.birthdate}
+                    type={"date"}
+                    required
+                  />
+                  <div className="radio-group my-6 mb-2 text-white">
+                    {errors.sex && (
+                      <span className="text-red-400">{errors.sex}</span>
+                    )}
+                    <div className="Input-field">
+                      <label>
+                        <Field type="radio" name="sex" value="მამრობითი" />
+                        <span className="ml-2">მამრობითი</span>
+                      </label>
+                    </div>
+                    <div className="Input-field">
+                      <label>
+                        <Field type="radio" name="sex" value="მდედრობითი" />
+                        <span className="ml-2">მდედრობითი</span>
+                      </label>
+                    </div>
+                  </div>
+                  <InputField
+                    handleChange={handleChange("mobile")}
+                    handleBlur={handleBlur("mobile")}
+                    name={"მობ ნომერი"}
+                    value={values.mobile}
+                    error={touched.name && errors.mobile}
+                    type={"number"}
+                  />
+                  <InputField
+                    handleChange={handleChange("location")}
+                    handleBlur={handleBlur("location")}
+                    name={"მისამართი"}
+                    value={values.location}
+                    error={touched.name && errors.location}
+                    required
+                  />
+
+                  <div className="flex my-4 justify-between">
+                    <button
+                      className="font-bold text-black py-1 px-4 cursor-pointer bg-red-400"
+                      type="button"
+                      onClick={() => setShowForm(false)}
+                    >
+                      დახურვა
+                    </button>
+                    <input
+                      className="font-bold text-black py-1 px-4 cursor-pointer bg-green-400"
+                      type="submit"
+                      value="დამატება"
+                    />
+                  </div>
                 </div>
               </FormikForm>
             )}
@@ -147,11 +151,17 @@ export function InputField({
   return (
     <div className="Input-field flex flex-col text-white">
       <label className="my-2" htmlFor={name}>
-        {name}
+        {error ? (
+          <span className="text-red-400">{error}</span>
+        ) : (
+          <span>{name}</span>
+        )}
       </label>
-      {error && <div>{error}</div>}
+      {/* {error && <div>{error}</div>} */}
       <input
-        className="w-[300px] max-w-[100%] h-9 rounded-sm px-2 bg-white text-black outline-none focus:bg-slate-200"
+        className={`w-[300px] max-w-[100%] h-9 rounded-sm px-2 bg-white text-black outline-none focus:bg-slate-200 ${
+          error ? "!border-red-400 border" : ""
+        }`}
         type={type ? type : "text"}
         value={value}
         onChange={handleChange}
