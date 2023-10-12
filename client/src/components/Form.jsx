@@ -81,40 +81,44 @@ export default function Form() {
               >
                 <div className="bg-slate-500 p-6 rounded-sm">
                   <InputField
-                    handleChange={handleChange("name")}
-                    handleBlur={handleBlur("name")}
-                    name={"სახელი გვარი"}
+                    handleChange={handleChange}
+                    handleBlur={handleBlur}
+                    name="name"
+                    label="სახელი გვარი"
                     value={values.name}
                     error={touched.name && errors.name}
                     required
                   />
                   <InputField
-                    handleChange={handleChange("email")}
-                    handleBlur={handleBlur("email")}
-                    name={"ელ-ფოსტა"}
+                    handleChange={handleChange}
+                    handleBlur={handleBlur}
+                    name="email"
+                    label="ელ-ფოსტა"
                     value={values.email}
                     error={touched.email && errors.email}
-                    type={"email"}
+                    type="email"
                   />
                   <InputField
-                    handleChange={handleChange("identification")}
-                    handleBlur={handleBlur("identification")}
-                    name={"პირადი ნომერი"}
+                    handleChange={handleChange}
+                    handleBlur={handleBlur}
+                    name="identification"
+                    label="პირადი ნომერი"
                     value={values.identification}
                     error={touched.identification && errors.identification}
-                    type={"number"}
+                    type="number"
                   />
                   <InputField
-                    handleChange={handleChange("birthdate")}
-                    handleBlur={handleBlur("birthdate")}
-                    name={"დაბ თარიღი"}
+                    handleChange={handleChange}
+                    handleBlur={handleBlur}
+                    name="birthdate"
+                    label="დაბ თარიღი"
                     value={values.birthdate}
-                    error={touched.name && errors.birthdate}
-                    type={"date"}
+                    error={touched.birthdate && errors.birthdate}
+                    type="date"
                     required
                   />
                   <div className="radio-group my-6 mb-2 text-white">
-                    {errors.sex && (
+                    {touched.sex && errors.sex && (
                       <span className="text-red-400">{errors.sex}</span>
                     )}
                     <div className="Input-field">
@@ -133,20 +137,21 @@ export default function Form() {
                   <InputField
                     handleChange={handleChange("mobile")}
                     handleBlur={handleBlur("mobile")}
-                    name={"მობ ნომერი"}
+                    name="mobile"
+                    label="მობ ნომერი"
                     value={values.mobile}
-                    error={touched.name && errors.mobile}
-                    type={"number"}
+                    error={touched.mobile && errors.mobile}
+                    type="number"
                   />
                   <InputField
-                    handleChange={handleChange("location")}
-                    handleBlur={handleBlur("location")}
-                    name={"მისამართი"}
+                    handleChange={handleChange}
+                    handleBlur={handleBlur}
+                    name="location"
+                    label="მისამართი"
                     value={values.location}
-                    error={touched.name && errors.location}
+                    error={touched.location && errors.location}
                     required
                   />
-
                   <div className="flex my-4 justify-between">
                     <button
                       className="font-bold text-black py-1 px-4 cursor-pointer bg-red-400"
@@ -179,6 +184,7 @@ export function InputField({
   handleChange,
   handleBlur,
   error,
+  label,
 }) {
   return (
     <div className="Input-field flex flex-col text-white">
@@ -186,7 +192,7 @@ export function InputField({
         {error ? (
           <span className="text-red-400">{error}</span>
         ) : (
-          <span>{name}</span>
+          <span>{label}</span>
         )}
       </label>
       {/* {error && <div>{error}</div>} */}
