@@ -29,8 +29,8 @@ export default function Table() {
                     <th className="border-r border-black">დაბ თარიღი</th>
                     <th className="border-r border-black">სქესი</th>
                     <th className="border-r border-black">მობ ნომერი</th>
-                    <th className="border-r">მისამართი</th>
-                    <th className="border-r">პირადი ნომერი</th>
+                    <th className="border-r border-black">მისამართი</th>
+                    <th className="border-r border-black">პირადი ნომერი</th>
                     <th className="border-r">ელ-ფოსტა</th>
                   </tr>
                 </thead>
@@ -85,7 +85,6 @@ function TableRow({
         showUpdateForm === true
       )
         return;
-      // else if (showUpdateForm === false) return;
       else {
         setSelectedId("");
         setShowButtons(false);

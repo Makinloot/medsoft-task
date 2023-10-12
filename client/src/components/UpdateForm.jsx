@@ -21,9 +21,9 @@ export default function UpdateForm({ id }) {
       (values.birthdate = new Date(values.birthdate)
         .toLocaleDateString("en-GB")
         .replace(/\//g, ".")),
-        // test route for production use /update
         axios
-          .post("http://localhost:3000/update", values)
+          .post("/update", values)
+          // .post("http://localhost:3000/update", values)
           .then((res) => {
             console.log(res);
             setShowUpdateForm(false);

@@ -74,11 +74,11 @@ function DeletePopUp() {
   function handleDelete(id) {
     try {
       // production route
-      // axios.post("/delete", { id: id }).then((res) => console.log(res));
+      axios.post("/delete", { id: id }).then((res) => console.log(res));
       // test route
-      axios
-        .post("http://localhost:3000/delete", { id: id })
-        .then((res) => console.log(res));
+      // axios
+      //   .post("http://localhost:3000/delete", { id: id })
+      //   .then((res) => console.log(res));
     } catch (error) {
       console.log(`Error deleting patient: ${error}`);
     }

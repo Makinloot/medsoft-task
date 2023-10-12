@@ -19,9 +19,9 @@ const ContextProvider = ({ children }) => {
   async function fetchPatients() {
     try {
       // production route
-      // const { data } = await axios.get("/patients");
+      const { data } = await axios.get("/patients");
       // testing route
-      const { data } = await axios.get("http://localhost:3000/patients");
+      // const { data } = await axios.get("http://localhost:3000/patients");
       setData(data);
     } catch (error) {
       console.log("Something went wrong", error);

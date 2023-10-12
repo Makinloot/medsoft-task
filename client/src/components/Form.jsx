@@ -34,15 +34,15 @@ export default function Form() {
         id: String(generateId()).split(".")[1],
       };
       // production route
-      // axios.post("/insert", request).then((res) => {
-      //   console.log(res);
-      //   setShowForm(false);
-      // });
-      // test route
-      axios.post("http://localhost:3000/insert", request).then((res) => {
+      axios.post("/insert", request).then((res) => {
         console.log(res);
         setShowForm(false);
       });
+      // test route
+      // axios.post("http://localhost:3000/insert", request).then((res) => {
+      //   console.log(res);
+      //   setShowForm(false);
+      // });
     } catch (error) {
       console.log("Something went wrong", error);
     }
