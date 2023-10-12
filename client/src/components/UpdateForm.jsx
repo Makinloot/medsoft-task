@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { InputField } from "./Form";
 import axios from "axios";
 import formValidationSchema from "../validationSchema";
+import { motion } from "framer-motion";
 
 export default function UpdateForm({ id }) {
   const { data, setShowUpdateForm } = useAppContext();
@@ -39,7 +40,11 @@ export default function UpdateForm({ id }) {
   return (
     <div className="Update-form">
       <div className="container">
-        <div className="Update-form-wrapper flex items-center justify-center fixed h-screen w-full top-0 left-0 bg-[#000000b7]">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          className="Update-form-wrapper flex items-center justify-center fixed h-screen w-full top-0 left-0 bg-[#000000b7]"
+        >
           {formValues?.name && (
             <Formik
               initialValues={{
@@ -73,7 +78,11 @@ export default function UpdateForm({ id }) {
                   className="relative max-w-[100%]"
                   noValidate
                 >
-                  <div className="bg-slate-500 p-6 rounded-sm">
+                  <motion.div
+                    initial={{ opacity: 0, x: -100 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    className="bg-slate-500 p-6 rounded-sm"
+                  >
                     <InputField
                       handleChange={handleChange}
                       handleBlur={handleBlur}
@@ -99,7 +108,6 @@ export default function UpdateForm({ id }) {
                       label="პირადი ნომერი"
                       value={values.identification}
                       error={touched.identification && errors.identification}
-                      type="number"
                     />
                     <InputField
                       handleChange={handleChange}
@@ -160,12 +168,12 @@ export default function UpdateForm({ id }) {
                         value="რედაქტირება"
                       />
                     </div>
-                  </div>
+                  </motion.div>
                 </FormikForm>
               )}
             </Formik>
           )}
-        </div>
+        </motion.div>
       </div>
     </div>
   );

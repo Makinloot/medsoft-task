@@ -13,6 +13,7 @@ export const formValidationSchema = Yup.object().shape({
     .max(9, "მაქსიმუმ 9 ციფრი")
     .min(9, "მინიმუმ 9 ციფრი"),
   location: Yup.string().required("სავალდებულო ველი"),
+  identification: Yup.string().matches(/^[0-9]+$/, "დაშვებულია მხოლოდ ციფრები"),
   email: Yup.string().test(
     "is-valid-email",
     "შეიყვანეთ სწორი ელ-ფოსტა",

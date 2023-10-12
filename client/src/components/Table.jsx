@@ -2,6 +2,7 @@
 /* eslint-disable react/prop-types */
 import { useAppContext } from "../context/ContextProvider";
 import { useEffect } from "react";
+import { motion } from "framer-motion";
 import TableButtons from "./TableButtons";
 
 export default function Table() {
@@ -12,7 +13,11 @@ export default function Table() {
       <div className="container">
         <div className="Table-wrapper">
           <TableButtons />
-          <div className="border border-black mt-4">
+          <motion.div
+            initial={{ y: 50 }}
+            animate={{ y: 0 }}
+            className="border border-black mt-4"
+          >
             <div className="overflow-x-auto">
               <table className="table table-xs">
                 <thead>
@@ -46,7 +51,7 @@ export default function Table() {
                 </tbody>
               </table>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>
@@ -63,8 +68,13 @@ function TableRow({
   identification,
   email,
 }) {
-  const { setShowButtons, setSelectedId, selectedId, showUpdateForm } =
-    useAppContext();
+  const {
+    setShowButtons,
+    setSelectedId,
+    selectedId,
+    showUpdateForm,
+    setShowUpdateForm,
+  } = useAppContext();
 
   useEffect(() => {
     // check if click contains class SELECTED_ITEM
@@ -88,12 +98,15 @@ function TableRow({
 
   return (
     <tr
-      className={`SELECTED_ITEM border-black hover:bg-slate-200 cursor-pointer ${
+      className={`SELECTED_ITEM border-black relative hover:bg-slate-200 cursor-pointer ${
         selectedId === id ? "bg-slate-400 hover:bg-slate-400" : ""
       }`}
       onClick={() => {
         setSelectedId(id);
         setShowButtons(true);
+        if (selectedId === id) {
+          setShowUpdateForm(true);
+        }
       }}
     >
       <th

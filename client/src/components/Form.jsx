@@ -3,6 +3,7 @@ import { useAppContext } from "../context/ContextProvider";
 import { Field, Formik, Form as FormikForm } from "formik";
 import formValidationSchema from "../validationSchema";
 import axios from "axios";
+import { motion } from "framer-motion";
 
 /* eslint-disable react/prop-types */
 export default function Form() {
@@ -50,7 +51,11 @@ export default function Form() {
   return (
     <div className="Form">
       <div className="container">
-        <div className="Form-wrapper flex items-center justify-center fixed overflow-visible h-screen w-full top-0 left-0 bg-[#000000b7]">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          className="Form-wrapper flex items-center justify-center fixed overflow-visible h-screen w-full top-0 left-0 bg-[#000000b7]"
+        >
           <Formik
             initialValues={{
               name: "",
@@ -79,7 +84,11 @@ export default function Form() {
                 className="relative max-w-[100%]"
                 noValidate
               >
-                <div className="bg-slate-500 p-6 rounded-sm">
+                <motion.div
+                  initial={{ opacity: 0, x: -100 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  className="bg-slate-500 p-6 rounded-sm"
+                >
                   <InputField
                     handleChange={handleChange}
                     handleBlur={handleBlur}
@@ -105,7 +114,6 @@ export default function Form() {
                     label="პირადი ნომერი"
                     value={values.identification}
                     error={touched.identification && errors.identification}
-                    type="number"
                   />
                   <InputField
                     handleChange={handleChange}
@@ -166,11 +174,11 @@ export default function Form() {
                       value="დამატება"
                     />
                   </div>
-                </div>
+                </motion.div>
               </FormikForm>
             )}
           </Formik>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
