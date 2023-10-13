@@ -5,7 +5,6 @@ export const formValidationSchema = Yup.object().shape({
   birthdate: Yup.date().required("სავალდებულო ველი"),
   sex: Yup.string().required("სავალდებულო ველი"),
   mobile: Yup.string()
-    .required("სავალდებულო ველი")
     .test("startsWithFive", "ველი 5-ით უნდა იწყებოდეს", (value) => {
       if (value === undefined) return true;
       return value.toString().startsWith("5");
@@ -19,7 +18,7 @@ export const formValidationSchema = Yup.object().shape({
     "შეიყვანეთ სწორი ელ-ფოსტა",
     (value) => {
       if (!value) {
-        return false;
+        return true;
       }
       const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{1,}$/;
       return emailRegex.test(value) && !/\s+$/.test(value);
